@@ -1,0 +1,38 @@
+name: test
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP with composer v2
+        uses: shivammathur/setup-php@v2
+        with:
+         php-version: '8.1'
+         tools: composer:v2
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Copy phpunit
+        run: cp phpunit.example.xml phpunit.xml
+
+      - name: Run Tests
+        uses: php-actions/phpunit@v2
+        with:
+          php_extensions: xdebug
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
+          args: --coverage-text
+        env:
+         EPAYCO_PUBLIC_KEY: ${{secrets.EPAYCO_PUBLIC_KEY}}
+         EPAYCO_PRIVATE_KEY: ${{secrets.EPAYCO_PRIVATE_KEY}}
+         EPAYCO_P_KEY: ${{secrets.EPAYCO_P_KEY}}
