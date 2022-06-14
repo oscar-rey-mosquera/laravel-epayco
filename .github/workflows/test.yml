@@ -16,9 +16,6 @@ jobs:
          php-version: '8.1'
          tools: composer:v2
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate --strict
-
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
