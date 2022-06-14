@@ -28,7 +28,7 @@ jobs:
           php_extensions: xdebug
           bootstrap: vendor/autoload.php
           configuration: phpunit.xml
-          args: --coverage-text
+          args: --coverage-text --stderr
         env:
          EPAYCO_PUBLIC_KEY: ${{secrets.EPAYCO_PUBLIC_KEY}}
          EPAYCO_PRIVATE_KEY: ${{secrets.EPAYCO_PRIVATE_KEY}}
